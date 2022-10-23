@@ -8,6 +8,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "@/stores/firebase.js";
+import { useStoreAuth } from "@/stores/storeAuth.js";
 
 let questionsCollectionRef;
 let getQuestionsSnapshot = null;
@@ -21,10 +22,13 @@ export const useStoreQuestions = defineStore("storeQuestions", {
   },
   actions: {
     initUser() {
+      const storeAuth = useStoreAuth();
+
       questionsCollectionRef = collection(db, "bc_roti");
       this.getQuestions();
     },
     async getQuestions() {
+      console.log("Hallo Welt");
       this.questionsLoaded = false;
       getQuestionsSnapshot = onSnapshot(
         questionsCollectionRef,
@@ -35,13 +39,10 @@ export const useStoreQuestions = defineStore("storeQuestions", {
               id: doc.id,
               classes: doc.data().classes,
             };
-            console.log("Hallo");
             questions.push(question);
           });
-          setTimeout(() => {
-            this.questions = questions;
-            this.questionsLoaded = true;
-          }, 200);
+          this.questions = questions;
+          this.questionsLoaded = true;
         }
       );
     },

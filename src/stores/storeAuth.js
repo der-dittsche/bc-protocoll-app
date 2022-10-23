@@ -7,6 +7,7 @@ import {
 } from "firebase/auth";
 import { auth } from "@/stores/firebase.js";
 import { useStoreNotes } from "@/stores/storeNotes.js";
+import { useStoreQuestions } from "@/stores/storeRoti.js";
 
 export const useStoreAuth = defineStore("storeAuth", {
   state: () => {
@@ -17,16 +18,19 @@ export const useStoreAuth = defineStore("storeAuth", {
   actions: {
     initUser() {
       const storeNotes = useStoreNotes();
+      const storeQuestions = useStoreQuestions();
       onAuthStateChanged(auth, (user) => {
         if (user) {
           this.user.id = user.uid;
           this.user.email = user.email;
           this.router.push("/");
           storeNotes.initUser();
+          storeQuestions.initUser();
         } else {
           this.user = {};
           this.router.replace("/auth");
           storeNotes.clearNotes();
+          storeQuestions.clearQuestions();
         }
       });
     },
