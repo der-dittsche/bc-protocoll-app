@@ -4,6 +4,7 @@ import ViewNotes from "@/Pages/ViewNotes.vue";
 import ViewStats from "@/Pages/ViewStats.vue";
 import ViewEditNote from "@/Pages/ViewEditNote.vue";
 import ViewAuth from "@/Pages/ViewAuth.vue";
+import ViewRoti from "@/Pages/ViewRoti.vue";
 
 const routes = [
   {
@@ -25,6 +26,11 @@ const routes = [
     path: "/auth",
     name: "auth",
     component: ViewAuth,
+  },
+  {
+    path: "/roti",
+    name: "roti",
+    component: ViewRoti,
   },
 ];
 
