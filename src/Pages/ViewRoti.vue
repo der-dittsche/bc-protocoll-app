@@ -8,7 +8,7 @@
     <div class="select">
       <select>
         <option v-for="question in storeQuestions.questions" :key="question.id">
-          {{ question.classes }}
+          {{ question.name }}
         </option>
       </select>
     </div>

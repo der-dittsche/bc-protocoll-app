@@ -6,11 +6,14 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
+  query,
+  orderBy,
 } from "firebase/firestore";
 import { db } from "@/stores/firebase.js";
 import { useStoreAuth } from "@/stores/storeAuth.js";
 
 let questionsCollectionRef;
+let questionsCollectionQuerry;
 let getQuestionsSnapshot = null;
 
 export const useStoreQuestions = defineStore("storeQuestions", {
@@ -25,19 +28,24 @@ export const useStoreQuestions = defineStore("storeQuestions", {
       const storeAuth = useStoreAuth();
 
       questionsCollectionRef = collection(db, "bc_roti");
+      questionsCollectionQuerry = query(
+        questionsCollectionRef,
+        orderBy("classes", "asc")
+      );
       this.getQuestions();
     },
     async getQuestions() {
       console.log("Hallo Welt");
       this.questionsLoaded = false;
       getQuestionsSnapshot = onSnapshot(
-        questionsCollectionRef,
+        questionsCollectionQuerry,
         (querySnapshot) => {
           let questions = [];
           querySnapshot.forEach((doc) => {
             let question = {
               id: doc.id,
               classes: doc.data().classes,
+              name: doc.data().name,
             };
             questions.push(question);
           });
